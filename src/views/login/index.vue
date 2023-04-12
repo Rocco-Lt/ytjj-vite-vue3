@@ -3,50 +3,31 @@
     <div class="logo-box">
       <img src="@/assets/imgs/common/logo.png" alt="" />
     </div>
-    <a-form
-      :model="formState"
-      name="basic"
-      :label-col="{ span: 8 }"
-      :wrapper-col="{ span: 16 }"
-      autocomplete="off"
-      @finish="onFinish"
-      @finishFailed="onFinishFailed"
-    >
-      <a-form-item
-        label="用户名"
-        name="username"
-        :rules="[{ required: true, message: 'Please input your username!' }]"
-      >
+    <a-form :model="formState" name="basic" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }" autocomplete="off"
+      @finish="onFinish" @finishFailed="onFinishFailed">
+      <a-form-item label="用户名" name="username" :rules="[{ required: true, message: '请输入用户名' }]">
         <a-input v-model:value="formState.username" placeholder="用户名" />
       </a-form-item>
-      <a-form-item
-        label="密码"
-        name="password"
-        :rules="[{ required: true, message: 'Please input your password!' }]"
-        placeholder="密码"
-      >
+      <a-form-item label="密码" name="password" :rules="[{ required: true, message: '请输入密码!' }]" placeholder="密码">
         <a-input-password v-model:value="formState.password" />
       </a-form-item>
       <a-form-item :wrapper-col="{ offset: 8, span: 16 }">
-        <a-button :loading="useLoginStore.btnLoading" type="primary" html-type="submit"
-          >登陆</a-button
-        >
+        <a-button :loading="useLoginStore.btnLoading" type="primary" html-type="submit">登陆</a-button>
       </a-form-item>
     </a-form>
   </div>
 </template>
 <script setup lang="ts">
-import { reactive, ref, watchEffect, isProxy, onMounted } from 'vue'
+import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { random_string } from '@/utils/utils'
 import { loginStore } from '@/stores/module/login'
 import { to } from '@/utils/awaitTo'
-
 const formState = reactive({
   username: '',
   password: '',
   type: '00', // 类型
-  uuid: random_string() // 随机生成32位字符串
+  uuid: random_string(), // 随机生成32位字符串   
 })
 
 const useLoginStore = loginStore()
@@ -54,7 +35,7 @@ const router = useRouter()
 //登陆
 const onFinish = async () => {
   try {
-    const [data] = await to(useLoginStore.getToken(formState))
+    const [err, data] = await to(useLoginStore.getToken(formState))
     if (data) {
       router.push('/home')
     }
@@ -66,33 +47,6 @@ const onFinish = async () => {
 const onFinishFailed = (errorInfo: any) => {
   console.log('Failed:', errorInfo)
 }
-
-// watch用法
-// watch([loading], ([nowloading], [oldLoading]) => {
-//   console.log('nowloading', nowloading)
-//   console.log('oldLoading', oldLoading)
-// })
-
-// export default defineComponent({
-//   setup() {
-//     const formState = reactive<FormState>({
-//       username: '',
-//       password: ''
-//     })
-//     const onFinish = (values: any) => {
-//       console.log('Success:', values)
-//     }
-
-//     const onFinishFailed = (errorInfo: any) => {
-//       console.log('Failed:', errorInfo)
-//     }
-//     return {
-//       formState,
-//       onFinish,
-//       onFinishFailed
-//     }
-//   }
-// })
 </script>
 
 <style lang="scss" scoped>
@@ -107,15 +61,18 @@ const onFinishFailed = (errorInfo: any) => {
   background-position: center;
   background-size: cover;
   flex-direction: column;
+
   .logo-box {
     width: 25vh;
     height: 10vh;
     margin-bottom: 5vh;
+
     img {
       width: 100%;
       height: 100%;
     }
   }
+
   .ant-form {
     border: 1px solid #ccc;
     display: flex;

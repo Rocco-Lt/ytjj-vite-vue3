@@ -1,10 +1,15 @@
+/*
+ * @Author: rocco.liu 2863433495@qq.com
+ * @Date: 2023-04-12 00:06:55
+ * @LastEditors: rocco.liu 2863433495@qq.com
+ * @LastEditTime: 2023-04-12 00:40:32
+ * @FilePath: /ytjj-vite-vue3/src/stores/module/login.ts
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
 import { defineStore } from 'pinia';
 import { loginApi, frontGetInfoApi } from '@/api/login/index'
 import Cookie from 'js-cookie'
 
-interface {
-    roles: <string>[],
-}
 export const loginStore = defineStore({
     id: "loginInfo",
     state: () => ({
@@ -19,9 +24,8 @@ export const loginStore = defineStore({
 
     },
     actions: {
-
         /** 登录 */
-        async getToken(params) {
+        async getToken(params: API.LoginParams) {
             this.btnLoading = true
             try {
                 const { token } = await loginApi(params);
