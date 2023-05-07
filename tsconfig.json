@@ -29,7 +29,8 @@
     "paths": {
       "@/*": ["src/*"]
     },
-    "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
+    "lib": ["esnext", "dom", "dom.iterable", "scripthost"],
+    "allowImportingTsExtensions":true
   },
   "include": [
     "src/**/*.ts",
