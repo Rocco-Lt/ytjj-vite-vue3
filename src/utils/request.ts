@@ -1,4 +1,5 @@
-import axios, { AxiosResponse, AxiosRequestConfig } from "axios";
+import axios from "axios";
+import type { AxiosRequestConfig, AxiosError } from 'axios';
 import { notification } from 'ant-design-vue';
 import Cookie from 'js-cookie'
 export interface RequestOptions {
@@ -17,20 +18,22 @@ export interface RequestOptions {
 const service = axios.create({
     baseURL: '/api/',
     timeout: 6000,
-    withCredentials: true // send cookies when cross-domain requests
+    withCredentials: true, // send cookies when cross-domain requests
+    headers: {
+        isToken: true
+    }
 })
 
 //请求拦截
 service.interceptors.request.use(
     (config) => {
-        const token = Cookie.get('token')
+        const token = config.headers.isToken ? Cookie.get('token') : null
         if (token) {
             config.headers['Authorization'] = `Bearer ${token}`
         }
         return config
     },
     (error) => {
-        console.log(error);
         Promise.reject(error);
     },
 )
@@ -50,7 +53,6 @@ service.interceptors.response.use(
     }, () => { }
 )
 
-console.log(service);
 
 
 
@@ -58,7 +60,7 @@ export const request = async <T>(config: AxiosRequestConfig,
     options: RequestOptions = {},): Promise<T> => {
     try {
         const { successMsg, errorMsg, permCode, isMock, isGetDataDirectly = true } = options;
-        const res = await service.request(config);
+        const res: any = await service.request(config);
         return res
     } catch (error) {
         return Promise.reject(error)

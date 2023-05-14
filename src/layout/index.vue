@@ -1,5 +1,5 @@
 <template>
-  <a-layout v-if="false">
+  <a-layout >
     <a-layout-sider v-model:collapsed="collapsed" :trigger="null" collapsible>
       <div class="logo" />
       <a-menu v-model:selectedKeys="selectedKeys" theme="dark" mode="inline">
@@ -33,7 +33,7 @@
       </a-layout-content>
     </a-layout>
   </a-layout>
-  <RouterView v-if="true" />
+
 </template>
 <script lang="ts">
 import {

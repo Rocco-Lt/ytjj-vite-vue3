@@ -3,16 +3,35 @@
     <div class="logo-box">
       <img src="@/assets/imgs/common/logo.png" alt="" />
     </div>
-    <a-form :model="formState" name="basic" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }" autocomplete="off"
-      @finish="onFinish" @finishFailed="onFinishFailed">
-      <a-form-item label="用户名" name="username" :rules="[{ required: true, message: '请输入用户名' }]">
+    <a-form
+      :model="formState"
+      name="basic"
+      :label-col="{ span: 8 }"
+      :wrapper-col="{ span: 16 }"
+      autocomplete="off"
+      @finish="onFinish"
+      @finishFailed="onFinishFailed"
+      layout="vertical"
+    >
+      <a-form-item
+        label="用户名"
+        name="username"
+        :rules="[{ required: true, message: '请输入用户名' }]"
+      >
         <a-input v-model:value="formState.username" placeholder="用户名" />
       </a-form-item>
-      <a-form-item label="密码" name="password" :rules="[{ required: true, message: '请输入密码!' }]" placeholder="密码">
+      <a-form-item
+        label="密码"
+        name="password"
+        :rules="[{ required: true, message: '请输入密码!' }]"
+        placeholder="密码"
+      >
         <a-input-password v-model:value="formState.password" />
       </a-form-item>
       <a-form-item :wrapper-col="{ offset: 8, span: 16 }">
-        <a-button :loading="useLoginStore.btnLoading" type="primary" html-type="submit">登陆</a-button>
+        <a-button :loading="useLoginStore.btnLoading" type="primary" html-type="submit"
+          >登陆</a-button
+        >
       </a-form-item>
     </a-form>
   </div>
@@ -27,7 +46,7 @@ const formState = reactive({
   username: '',
   password: '',
   type: '00', // 类型
-  uuid: random_string(), // 随机生成32位字符串   
+  uuid: random_string() // 随机生成32位字符串
 })
 
 const useLoginStore = loginStore()
@@ -80,8 +99,19 @@ const onFinishFailed = (errorInfo: any) => {
     justify-content: center;
     flex-direction: column;
     min-height: 30vh;
-    width: 30vh;
+    width: 35vh;
     background: #fff;
+    .ant-form-item {
+      width: 80%;
+      :deep(.ant-form-item-control) {
+        width: 100% !important;
+        max-width: 100%;
+      }
+      :deep(.ant-form-item-label) {
+        display: flex;
+      }
+     
+    }
   }
 }
 </style>
