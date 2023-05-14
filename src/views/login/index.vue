@@ -42,6 +42,7 @@ import { useRouter } from 'vue-router'
 import { random_string } from '@/utils/utils'
 import { loginStore } from '@/stores/module/login'
 import { to } from '@/utils/awaitTo'
+import { notification } from 'ant-design-vue'
 const formState = reactive({
   username: '',
   password: '',
@@ -54,9 +55,15 @@ const router = useRouter()
 //登陆
 const onFinish = async () => {
   try {
-    const [err, data] = await to(useLoginStore.getToken(formState))
-    if (data) {
-      router.push('/home')
+    const [err, data]: [err: any, data: any] = await to(useLoginStore.getToken(formState))
+    const { roles }: { roles: string[] } = data
+    if (roles.includes('Group')) {
+      router.push('/home/group')
+    } else {
+      notification.error({
+        message: '别的角色还没配置,只支持管理员登陆'
+      })
+      return
     }
   } catch (error) {
     Promise.reject(error)
@@ -110,7 +117,6 @@ const onFinishFailed = (errorInfo: any) => {
       :deep(.ant-form-item-label) {
         display: flex;
       }
-     
     }
   }
 }

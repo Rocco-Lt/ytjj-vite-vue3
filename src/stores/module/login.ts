@@ -13,7 +13,6 @@ import Cookie from 'js-cookie'
 export const loginStore = defineStore({
     id: "loginInfo",
     state: () => ({
-        info: 'asd',
         btnLoading: false,
         roles: ['null'],
         user: null,
@@ -46,7 +45,7 @@ export const loginStore = defineStore({
                 this.GroupLoginResponseVo = GroupLoginResponseVo;
                 this.teacher = teacher;
                 this.btnLoading = false;
-                return Promise.resolve('success')
+                return Promise.resolve({ roles })
             } catch (error) {
                 this.btnLoading = false
                 return Promise.reject(error);
@@ -55,7 +54,6 @@ export const loginStore = defineStore({
         //设置角色跳转的路径
         goLayoutPage() {
             this.roles.includes('Group')
-
         }
 
     },
